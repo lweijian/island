@@ -1,4 +1,9 @@
-import { defineConfig } from '../../dist/node';
+import { defineConfig, DefaultTheme } from 'islandjs';
+import { pluginCheckLinks } from '@islandjs/plugin-check-links';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const version = require('../../package.json').version;
 
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';
@@ -20,15 +25,14 @@ export default defineConfig({
     remarkPlugins: []
   },
   route: {
-    exclude: ['custom.tsx']
+    exclude: ['custom.tsx', '**/fragments/**']
   },
+  // plugins: [pluginCheckLinks({})],
   themeConfig: {
     locales: {
       '/zh/': {
         lang: 'zh',
         label: '简体中文',
-        selectText: '语言',
-        ariaLabel: '语言',
         lastUpdatedText: '上次更新',
         nav: getNavbar('zh'),
         sidebar: getSidebar('zh'),
@@ -46,29 +50,32 @@ export default defineConfig({
       '/en/': {
         lang: 'en',
         label: 'English',
-        selectText: 'Languages',
-        ariaLabel: 'Languages',
         lastUpdated: 'Last Updated',
         nav: getNavbar('en'),
         sidebar: getSidebar('en'),
         title: 'Island.js',
-        description: 'SSG Framework based on island architecture'
+        description: 'SSG Framework based on island architecture',
+        lastUpdatedText: 'Last Updated',
+        editLink: {
+          pattern:
+            'https://github.com/sanyuan0704/island.js/tree/master/docs/:path',
+          text: '📝 Edit this page on GitHub'
+        }
       }
     },
     outlineTitle: 'ON THIS PAGE',
     socialLinks: [
       {
         icon: 'github',
-        link: 'https://github.com/sanyuan0704/island'
+        mode: 'link',
+        content: 'https://github.com/sanyuan0704/island'
+      },
+      {
+        icon: 'discord',
+        mode: 'link',
+        content: 'https://discord.gg/Nvy4YSerjM'
       }
     ],
-    lastUpdatedText: 'Last Updated',
-    editLink: {
-      pattern:
-        'https://github.com/sanyuan0704/island.js/tree/master/docs/:path',
-      text: '📝 Edit this page on GitHub'
-    },
-
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2022-present Xingyuan Yang'
@@ -76,7 +83,7 @@ export default defineConfig({
   }
 });
 
-function getSidebar(lang: 'zh' | 'en') {
+function getSidebar(lang: 'zh' | 'en'): DefaultTheme.Sidebar {
   const { getLink, getText } = getI18nHelper(lang);
 
   return {
@@ -108,7 +115,7 @@ function getSidebar(lang: 'zh' | 'en') {
         ]
       },
       {
-        text: getText('核心功能', 'Features'),
+        text: getText('基础功能', 'Features'),
         items: [
           {
             text: getText('约定式路由', 'Conventional Routing'),
@@ -131,8 +138,50 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/static-assets')
           },
           {
-            text: getText('能力扩展', 'Extension'),
+            text: getText('添加全局样式', 'Add Global Styles'),
+            link: getLink('/guide/custom-global-style')
+          }
+        ]
+      },
+      {
+        text: getText('默认主题功能', 'Default Theme'),
+        items: [
+          {
+            text: getText('导航栏模块', 'Nav Bar'),
+            link: getLink('/guide/navbar')
+          },
+          {
+            text: getText('Home 主页', 'Home Page'),
+            link: getLink('/guide/home-page')
+          },
+          {
+            text: getText('API 预览页', 'API Page'),
+            link: getLink('/guide/api-page')
+          },
+          {
+            text: getText('正文页面', 'Doc Page'),
+            link: getLink('/guide/doc-page')
+          },
+          {
+            text: getText('国际化', 'I18n'),
+            link: getLink('/guide/i18n')
+          },
+          {
+            text: getText('全文搜索', 'Search'),
+            link: getLink('/guide/search')
+          }
+        ]
+      },
+      {
+        text: getText('高级能力', 'Advanced'),
+        items: [
+          {
+            text: getText('扩展构建能力', 'Build Extension'),
             link: getLink('/guide/extension')
+          },
+          {
+            text: getText('自定义主题', 'Custom Theme'),
+            link: getLink('/guide/custom-theme')
           }
         ]
       }
@@ -158,6 +207,19 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/api/config-extension')
           }
         ]
+      },
+      {
+        text: getText('Client API', 'Client API'),
+        items: [
+          {
+            text: getText('运行时 API', 'Runtime API'),
+            link: getLink('/api/api-runtime')
+          },
+          {
+            text: getText('默认主题', 'Default Theme'),
+            link: getLink('/api/api-theme')
+          }
+        ]
       }
     ]
   };
@@ -173,9 +235,26 @@ function getNavbar(lang: 'zh' | 'en') {
       activeMatch: '/guide/'
     },
     {
+      text: getText('教程', 'Tutorial'),
+      link: `https://island-tutorial.sanyuan0704.top/${lang}/`
+    },
+    {
       text: getText('API', 'API'),
       link: getLink('/api/'),
       activeMatch: '/api/'
+    },
+    {
+      text: `v${version}`,
+      items: [
+        {
+          text: getText('更新日志', 'Changelog'),
+          link: 'https://github.com/sanyuan0704/island.js/blob/master/CHANGELOG.md'
+        },
+        {
+          text: getText('贡献指南', 'Contributing'),
+          link: 'https://github.com/sanyuan0704/island.js/blob/master/.github/contributing.md'
+        }
+      ]
     }
   ];
 }

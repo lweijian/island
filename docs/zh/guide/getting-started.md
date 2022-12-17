@@ -2,13 +2,18 @@
 
 ## 为什么选择 Island.js?
 
-🏝️ Island.js 是一个基于 Vite、React 和 MDX 的静态站点生成器。它的特点是**简单**、**轻量**且**高性能**，旨在帮助你以最少的配置专注于编写和部署静态站点。它主要具有以下功能：
+🏝️ Island.js 是一个基于 Vite、React 和 MDX 的静态站点生成器。它的特点是**简单**、**强大**且**高性能**，旨在帮助你以最少的配置专注于编写和部署静态站点。它主要具有以下功能：
 
 - **开发体验好**: 基于 Vite 进行构建，启动和热更新速度极快。
 - **语法灵活**: 内置 MDX 支持，也就是说你可以在 Markdown 中使用 React 组件。
 - **高性能**: 基于[孤岛架构](https://jasonformat.com/islands-architecture/), 实现了 Partial Hydration，意味着更少的客户端 JavaScript 和更少的运行时开销。
+- **功能强大**: 默认主题内置了`夜间模式`、[`Home 主页`](/zh/guide/home-page)、[`API 预览页`](/zh/guide/api-page)、[`全文搜索`](/zh/guide/search)、[`国际化`](/zh/guide/i18n)等等能力。
 
 接下来，我们将从零开始搭建一个基于 Island.js 的文档站点。
+
+:::tip
+目前我们也提供了独立的教程文档，从零到一完成项目初始化、开发、打包并部署，拥有更好的阅读与交互体验，你可以点击[【这里】](https://island-tutorial.sanyuan0704.top/zh)进入。
+:::
 
 ## 1. 初始化项目
 

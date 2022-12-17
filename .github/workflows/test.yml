@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
   workflow_dispatch:
 
@@ -38,9 +38,12 @@ jobs:
 
       - name: Build
         run: pnpm run build
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
       - name: Lint
         run: pnpm run lint
 
-      - name: Test unit
+      - name: Test unit and e2e
         run: pnpm run test

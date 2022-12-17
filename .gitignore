@@ -11,3 +11,7 @@ TODOs.md
 .temp
 *.tgz
 vendors
+.vite-inspect
+.eslintcache
+package-lock.json
+.turbo

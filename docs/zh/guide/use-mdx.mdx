@@ -2,7 +2,7 @@
 title: '使用 MDX'
 ---
 
-# 使用 Mdx
+# 使用 MDX
 
 Island.js 支持 [Mdx](https://mdxjs.com/)，这是一种功能强大的内容开发方式，你可以在 Markdown 文件中导入和使用 React 组件。
 
@@ -46,7 +46,7 @@ title: Hello World
 title: Hello World
 ---
 
-# {meta.title}
+# {frontmatter.title}
 ```
 
 前面定义的属性将作为 `meta` 属性传递给组件。所以最终输出将是：
@@ -56,3 +56,173 @@ title: Hello World
 ```
 
 更多的配置详情请参考 [config-front-matter](/zh/api/config-front-matter)。
+
+## 自定义容器
+
+**输入：**
+
+```markdown
+:::tip
+这是一个`tip`类型的`block`
+:::
+
+:::info
+这是一个`info`类型的`block`
+:::
+
+:::warning
+这是一个`warning`类型的`block`
+:::
+
+:::danger
+这是一个`danger`类型的`block`
+:::
+
+:::other
+`tip`作为兜底类型的`block`
+:::
+
+:::tip{title=自定义标题}
+自定义标题的 `block`
+:::
+```
+
+**输出：**
+
+:::tip
+这是一个 `tip` 类型的 `block`
+:::
+
+:::info
+这是一个 `info` 类型的 `block`
+:::
+
+:::warning
+这是一个 `warning` 类型的 `block`
+:::
+
+:::danger
+这是一个 `danger` 类型的 `block`
+:::
+
+:::other
+`tip` 作为兜底类型的 `block`
+:::
+
+:::tip{title=自定义标题}
+自定义标题的 `block`
+:::
+
+## Emoji
+
+**输入：**
+
+```bash
+:tada: :100: :laughing:
+```
+
+**输出：**
+
+:tada: :100: :laughing:
+
+完整的表情列表可以在 [Emoji Cheat Sheet](https://www.webfx.com/tools/emoji-cheat-sheet/) 中查看。
+
+## 指定代码行高亮
+
+Island.js 支持指定代码行的高亮显示。你可以用以下任意方式指定代码行高亮。
+
+**输入：**
+
+````bash
+```js{1}
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  themeConfig: {
+    navbar: [
+      {
+        text: 'Home',
+        link: '/',
+        activeMatch: '^/$|^/'
+      }
+    ]
+  }
+});
+```
+````
+
+**输出：**
+
+```js{1}
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  themeConfig: {
+    navbar: [
+      {
+        text: 'Home',
+        link: '/',
+        activeMatch: '^/$|^/'
+      }
+    ]
+  }
+});
+```
+
+除了单行之外，你还可以同时指定多行代码高亮。
+
+- 指定一个范围：`{1-10}`
+- 指定多个单行：`{1,3,5}`
+- 多行和单行结合：`{3,5-13,20}`
+
+**输入：**
+
+````bash
+```js{1,4-7,10}
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  themeConfig: {
+    navbar: [
+      {
+        text: 'Home',
+        link: '/',
+        activeMatch: '^/$|^/'
+      }
+    ]
+  }
+});
+```
+````
+
+**输出：**
+
+```js{1,4-7,10}
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  themeConfig: {
+    navbar: [
+      {
+        text: 'Home',
+        link: '/',
+        activeMatch: '^/$|^/'
+      }
+    ]
+  }
+});
+```
+
+## 代码块行号
+
+如果你希望给代码块添加行号，可以通过以下配置开启功能。
+
+```js{5}
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  markdown: {
+    lineNumbers: true
+  }
+});
+```

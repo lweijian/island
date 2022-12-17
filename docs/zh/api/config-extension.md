@@ -7,7 +7,7 @@
 - Type: `Object`
 - Default: `{}`
 
-[Vite]的自定义配置（https://vitejs.dev/config/）。你传入的配置将与Vite的默认配置深度合并。例如：
+[Vite](https://vitejs.dev/config/) 的自定义配置。你传入的配置将与 Vite 的默认配置深度合并。例如：
 
 ```js
 import { defineConfig } from 'islandjs';
@@ -20,6 +20,13 @@ export default defineConfig({
     ]
   }
 });
+```
+
+当然你也可以通过命令行选项来添加 vite 配置，但是仅限于`island build docs`与`island dev docs`命令（我们的构建预览并没有使用 vite），目前支持的命令行选项可以通过`--help`命令来获取：
+
+```js
+island build --help
+island dev --help
 ```
 
 ## route
@@ -131,9 +138,10 @@ remark 和 rehype 插件的选项。
 
 用于解析 markdown 文件的备注插件。默认情况下将使用以下插件：
 
-- [remark-gfm](https://www.npmjs.com/package/remark-gfm): 解析常用 markdown 语法 `GFM`(GitHub Flavored Markdown)。
+- [remark-gfm](https://www.npmjs.com/package/remark-gfm): 解析常用 markdown 语法 `GFM` (GitHub Flavored Markdown)。
 - [remark-frontmatter](https://www.npmjs.com/package/remark-frontmatter): 解析 Markdown 文件中的 Front Matter 信息。
 - [remark-mdx-frontmatter](https://www.npmjs.com/package/remark-mdx-frontmatter): 解析 MDX 文件中的 Front Matter 信息。
+- [remark-gemoji](https://www.npmjs.com/package/remark-gemoji): 将 gemoji 缩写 `(:+1:)` 转换为 emoji (:+1:)。
 
 你还可以使用此选项添加一些额外的 remark 插件。例如：
 
@@ -173,3 +181,92 @@ export default defineConfig({
   }
 });
 ```
+
+### markdown.lineNumbers
+
+- Type: `Boolean`,
+- Default: `false`
+
+是否给代码块加上行号，默认是不展示。
+
+```js
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  markdown: {
+    lineNumbers: true
+  }
+});
+```
+
+### markdown.checkLink
+
+- Type: `Object`
+- Default: `null`
+
+配置文档的链接检查功能。
+
+当文档中的链接无法正常访问时，会抛出错误并终止构建。
+
+:::danger
+该配置默认关闭。当手动开启后，在网络状况不好的情况下会阻塞构建
+:::
+
+```js
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  markdown: {
+    checkLink: {
+      exclude: ['github.com'],
+      timeout: 30000
+    },
+    checkLink: {
+      // 将会开启死链检查功能
+      enable: true
+    }
+  }
+});
+```
+
+### markdown.targetBlankWhiteList
+
+- Type: `Array`
+- Default: `['https://island-tutorial.sanyuan0704.top', 'https://island.sanyuan0704.top']`
+
+这个配置内的外部链接将在当前页面加载。
+
+默认情况下，点击一个外部链接，其会在新标签页打开，然而在某些情况下，我们可能并不希望这么做。`Island.js` 会在内部将 md(x) 文件中的外部 urls（以 `http://` 或 `https://` 开头）转化为 html 中的 `<a>` 标签，并为其设置 `target="_blank"`。对于此配置内的链接，其 `target` 属性会被赋值为 `_self`，因此其会在当前页面加载。
+
+链接的类型即可以是 `string`，也可以是 `RegExp`，例如：
+
+```js
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  markdown: {
+    targetBlankWhiteList: [
+      'https://github.com/sanyuan0704/island.js/',
+      /^(http|https):\/\/.*vite.*/i
+    ]
+  }
+});
+```
+
+## babel
+
+你可以通过 `babel` 字段配置 babel 相关的选项，控制 JS(X)/TS(X) 的编译行为。比如：
+
+```js
+import { defineConfig } from 'islandjs';
+
+export default defineConfig({
+  babel: {
+    plugins: [
+      // ...
+    ]
+  }
+});
+```
+
+你传入的 babel 配置会被合并到默认的 [`@vitejs/plugin-react`](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react) 的 babel 配置中

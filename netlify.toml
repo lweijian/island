@@ -1,0 +1,14 @@
+[build.environment]
+  NODE_VERSION = "16"
+  NPM_FLAGS = "--version" # prevent Netlify npm install
+[build]
+  publish = "docs/.island/dist"
+  command = "npx pnpm i --store=node_modules/.pnpm-store --frozen-lockfile && pnpm turbo run build:docs"
+[[headers]]
+  for = "*.js" # js files should be set this way
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+[[headers]]
+  for = "*.css" # css files too
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"

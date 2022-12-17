@@ -1,7 +1,3 @@
----
-title: 'Configure your site'
----
-
 # 配置站点
 
 ## 创建配置文件
@@ -29,13 +25,15 @@ export default defineConfig({
 });
 ```
 
-关于配置文件，有以下两个注意事项:
+你也可以显式地通过 --config 命令行选项指定一个配置文件（配置文件仍然需要放在 .island 路径下）。
 
-- 1. Island.js 支持`.js`、`.ts`、`.mjs`、`.cjs`文件作为配置文件。但是推荐使用 TypeScript 配置，因为可以使用`defineConfig`获取类型提示。
+另外，关于配置文件有以下两个注意事项:
+
+- 1. Island.js 支持 `.js`、`.ts`、`.mjs`、`.cjs` 文件作为配置文件。但是推荐使用 TypeScript 配置，因为可以使用`defineConfig`获取类型提示。
 
 - 2. 配置文件应该有一个默认导出，即默认导出一个 `SiteConfig` 对象。
 
-在上面的例子中，我们将站点的 `title` 设置为 `my-site`，然后你可以通过 `yarn dev:docs` 运行启动开发服务器。你会看到站点的标题已更改为 `my -site`。这意味着你已经唤醒了你的第一个站点配置，nice!
+在上面的例子中，我们将站点的 `title` 设置为 `my-site`，然后你可以通过 `yarn dev` 运行启动开发服务器。你会看到站点的标题已更改为 `my-site`。这意味着你已经唤醒了你的第一个站点配置，nice!
 
 在下一节中，我们将介绍导航和侧边栏配置，这对于文档站点是相当重要的。
 
@@ -70,17 +68,19 @@ import { defineConfig } from 'islandjs';
 
 export default defineConfig({
   themeConfig: {
-    sidebar: [
-      {
-        text: 'Guide',
-        items: [
-          {
-            text: 'Getting Started',
-            link: '/guide/getting-started'
-          }
-        ]
-      }
-    ]
+    sidebar: {
+      '/guide/': [
+        {
+          text: 'Guide',
+          items: [
+            {
+              text: 'Getting Started',
+              link: '/guide/getting-started'
+            }
+          ]
+        }
+      ]
+    }
   }
 });
 ```

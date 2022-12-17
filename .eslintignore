@@ -1,7 +1,11 @@
 **/dist/**
 **/node_modules/**
-package.json
+**/package.json
 *.d.ts
 .eslintrc.cjs
-tsconfig.json
+**/tsconfig.json
+**/tsconfig.base.json
+turbo.json
 vendors
+**/__tests__/**
+**/scripts/**
